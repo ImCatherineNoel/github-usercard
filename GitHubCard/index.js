@@ -15,34 +15,7 @@ import axios from 'axios';
     Skip to STEP 3.
 */
 
-/*
-  STEP 4: Pass the data received from Github into your function,
-    and append the returned markup to the DOM as a child of .cards
-*/
-axios.get('https://api.github.com/users/imcatherinenoel')
-.then(info => {
-	console.log(info);
-	const card = document.querySelector('.cards');
-	card.appendChild(cardMaker(info.data));
- 
-   })
-   .catch(err => {
-	console.log('Error:', err);
- 
-   });
 
-/*
-  STEP 5: Now that you have your own card getting added to the DOM, either
-    follow this link in your browser https://api.github.com/users/<Your github name>/followers,
-    manually find some other users' github handles, or use the list found at the
-    bottom of the page. Get at least 5 different Github usernames and add them as
-    Individual strings to the friendsArray below.
-
-    Using that array, iterate over it, requesting data for each user, creating a new card for each
-    user, and adding that card to the DOM.
-*/
-
-const followersArray = [];
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -78,39 +51,78 @@ function cardMaker(obj){
 		const	infoFing	=	document.createElement('p');  //   <p>Following: {users following count}</p>
 		const	infoBio	=	document.createElement('p');  //   <p>Bio: {users bio}</p>
 
+	//Adding Classes
+		cardDiv.classList.add('card');  		//<div class="card">
+		infoDiv.classList.add('card-info');  	//<div class="card-info">
+		infoName.classList.add('name');  		//<h3 class="name">{users name}</h3>
+		infoUser.classList.add('username');  	//<p class="username">{users user name}</p>
+
+	//Adding	Info to Elements
+	//cardDiv 					//<div class="card">
+	cardImg.src = obj.avatar_url;	//<img src={image url of user} />
+	// infoDiv	// <div class="card-info">
+	infoName.textContent = 	obj.login;	//<h3 class="name">{users name}</h3>
+	infoUser.textContent = 	obj.login;	//<p class="username">{users user name}</p>
+	infoLoc.textContent = 	`Location: ${obj.location}`;	//<p>Location: {users location}</p>
+	
+	infoLink.href = obj.html_url;	
+	
+	infoLink.textContent	= 	obj.html_url;//<a href={address to users github page}>{address to users github page}</a>
+	infoProf.textContent	=	`Profile:  `;//<p>Profile: ${obj.html_url}
+		
+	infoFers.textContent = 	`Followers: ${obj.followers}`;//<p>Followers: {users followers count}</p>
+	infoFing.textContent = 	`Following: ${obj.following}`;//<p>Following: {users following count}</p>
+	infoBio.textContent = 	`Bio: ${obj.bio}`;;//<p>Bio: {users bio}</p>
+	
 	//Adding Structure
-		//<div class="card"> [append to something later]
+		//<div class="card"> 
 		cardDiv.appendChild(cardImg);		//	<img src={image url of user} />
-		cardDiv.appendChild(infoDiv);		// <div class="card-info">
-		infoDiv.appendChild(infoName);	//<h3 class="name">{users name}</h3>
+		cardDiv.appendChild(infoDiv);		// 	<div class="card-info">
+		infoDiv.appendChild(infoName);	//	<h3 class="name">{users name}</h3>
 		infoDiv.appendChild(infoUser);	//   <p class="username">{users user name}</p>
 		infoDiv.appendChild(infoLoc);		//   <p>Location: {users location}</p>
 		infoDiv.appendChild(infoProf);	//   <p>Profile:
-		//need to look into how this should work
-		infoDiv.appendChild(infoLink);//	<a href={address to users github page}>{address to users github page}</a>
-		infoDiv.appendChild(infoFers);//   <p>Followers: {users followers count}</p>
-		infoDiv.appendChild(infoFing);//   <p>Following: {users following count}</p>
-		infoDiv.appendChild(infoBio);//   <p>Bio: {users bio}</p>
+		infoDiv.appendChild(infoFers);	//   <p>Followers: {users followers count}</p>
+		infoDiv.appendChild(infoFing);	//   <p>Following: {users following count}</p>
+		infoDiv.appendChild(infoBio);		//   <p>Bio: {users bio}</p>
+		infoProf.appendChild(infoLink);	//	<a href={address to users github page}>{address to users github page}</a>
+	
 
-	//Adding Classes
-		cardDiv.classList.add('card');  //<div class="card">
-		infoDiv.classList.add('card-info');  //<div class="card-info">
-		infoName.classList.add('name');  //<h3 class="name">{users name}</h3>
-		infoUser.classList.add('username');  //<p class="username">{users user name}</p>
 
-	//Adding	Info to Elements
-		cardImg.src	=	obj.avatar_url;
-		infoName.textContent	=	 obj.name;
-		infoUser.textContent	=		obj.login;
-		infoLoc.textContent		 = 		obj.location;
-		infoProf.textContent	 = 		`Profile:`;		//	HOW?? <a href = ${obj.html_url}>${obj.html_url}</a>
-		infoFers.textContent 	=		`Followers ${obj.followers}`;
-		infoFing.textContent 	=		`Following  ${obj.following} `;
-		infoBio.textContent 	=		obj.bio;
+	//Testing
+	console.log(cardDiv);
+	console.log(obj.html_url);
 	//Return	
 		return cardDiv;
 }
+/*
+  STEP 4: Pass the data received from Github into your function,
+    and append the returned markup to the DOM as a child of .cards
+*/
+axios.get('https://api.github.com/users/imcatherinenoel')
+.then(info => {
+	console.log(info);
+	const card = document.querySelector('.cards');
+	card.appendChild(cardMaker(info.data));
+ 
+   })
+   .catch(err => {
+	console.log('Error:', err);
+ 
+   });
 
+/*
+  STEP 5: Now that you have your own card getting added to the DOM, either
+    follow this link in your browser https://api.github.com/users/<Your github name>/followers,
+    manually find some other users' github handles, or use the list found at the
+    bottom of the page. Get at least 5 different Github usernames and add them as
+    Individual strings to the friendsArray below.
+
+    Using that array, iterate over it, requesting data for each user, creating a new card for each
+    user, and adding that card to the DOM.
+*/
+
+const followersArray = [	'tetondan',	'dustinmyers', 	'justsml', 	'luishrd',	'bigknell'];
 
 
 
