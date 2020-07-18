@@ -37,43 +37,36 @@ import axios from 'axios';
 </div>
 </div>*/
 function cardMaker(obj){
-
 	//Creating Elements
-		const	cardDiv	=	document.createElement('div');  //<div class="card">
-		const	cardImg	=	document.createElement('img');  //	<img src={image url of user} />
-		const	infoDiv	=	document.createElement('div')  // <div class="card-info">
-		const	infoName	=	document.createElement('h3');  //   <h3 class="name">{users name}</h3>
-		const	infoUser	=	document.createElement('p');  //   <p class="username">{users user name}</p>
-		const	infoLoc	=	document.createElement('p');  //   <p>Location: {users location}</p>
-		const	infoProf	=	document.createElement('p');  //   <p>Profile:
-		const	infoLink	=	document.createElement('a');  //	<a href={address to users github page}>{address to users github page}</a>
-		const	infoFers	=	document.createElement('p');  //   <p>Followers: {users followers count}</p>
-		const	infoFing	=	document.createElement('p');  //   <p>Following: {users following count}</p>
-		const	infoBio	=	document.createElement('p');  //   <p>Bio: {users bio}</p>
-
+		const	cardDiv	=	document.createElement('div');  	//<div class="card">
+		const	cardImg	=	document.createElement('img');  	//	<img src={image url of user} />
+		const	infoDiv	=	document.createElement('div')  	// <div class="card-info">
+		const	infoName	=	document.createElement('h3');  	//   <h3 class="name">{users name}</h3>
+		const	infoUser	=	document.createElement('p');  	//   <p class="username">{users user name}</p>
+		const	infoLoc	=	document.createElement('p');  	//   <p>Location: {users location}</p>
+		const	infoProf	=	document.createElement('p');  	//   <p>Profile:
+		const	infoLink	=	document.createElement('a');  	//	<a href={address to users github page}>{address to users github page}</a>
+		const	infoFers	=	document.createElement('p');  	//   <p>Followers: {users followers count}</p>
+		const	infoFing	=	document.createElement('p');  	//   <p>Following: {users following count}</p>
+		const	infoBio	=	document.createElement('p');  	//   <p>Bio: {users bio}</p>
 	//Adding Classes
 		cardDiv.classList.add('card');  		//<div class="card">
 		infoDiv.classList.add('card-info');  	//<div class="card-info">
 		infoName.classList.add('name');  		//<h3 class="name">{users name}</h3>
 		infoUser.classList.add('username');  	//<p class="username">{users user name}</p>
-
 	//Adding	Info to Elements
-	//cardDiv 					//<div class="card">
-	cardImg.src = obj.avatar_url;	//<img src={image url of user} />
-	// infoDiv	// <div class="card-info">
-	infoName.textContent = 	obj.login;	//<h3 class="name">{users name}</h3>
-	infoUser.textContent = 	obj.login;	//<p class="username">{users user name}</p>
-	infoLoc.textContent = 	`Location: ${obj.location}`;	//<p>Location: {users location}</p>
-	
-	infoLink.href = obj.html_url;	
-	
-	infoLink.textContent	= 	obj.html_url;//<a href={address to users github page}>{address to users github page}</a>
-	infoProf.textContent	=	`Profile:  `;//<p>Profile: ${obj.html_url}
-		
-	infoFers.textContent = 	`Followers: ${obj.followers}`;//<p>Followers: {users followers count}</p>
-	infoFing.textContent = 	`Following: ${obj.following}`;//<p>Following: {users following count}</p>
-	infoBio.textContent = 	`Bio: ${obj.bio}`;;//<p>Bio: {users bio}</p>
-	
+		//cardDiv 			//<div class="card">
+		cardImg.src 			= 	obj.avatar_url;				//<img src={image url of user} />
+		// infoDiv			// <div class="card-info">
+		infoName.textContent 	= 	obj.login;					//<h3 class="name">{users name}</h3>
+		infoUser.textContent 	= 	obj.login;					//<p class="username">{users user name}</p>
+		infoLoc.textContent 	= 	`Location: ${obj.location}`;		//<p>Location: {users location}</p>
+		infoLink.href 			=	 obj.html_url;	
+		infoLink.textContent	= 	obj.html_url;					//<a href={address to users github page}>{address to users github page}</a>
+		infoProf.textContent	=	`Profile:  `;					//<p>Profile: 
+		infoFers.textContent 	= 	`Followers: ${obj.followers}`;	//<p>Followers: {users followers count}</p>
+		infoFing.textContent 	= 	`Following: ${obj.following}`;	//<p>Following: {users following count}</p>
+		infoBio.textContent 	= 	`Bio: ${obj.bio}`;				//<p>Bio: {users bio}</p>
 	//Adding Structure
 		//<div class="card"> 
 		cardDiv.appendChild(cardImg);		//	<img src={image url of user} />
@@ -86,12 +79,9 @@ function cardMaker(obj){
 		infoDiv.appendChild(infoFing);	//   <p>Following: {users following count}</p>
 		infoDiv.appendChild(infoBio);		//   <p>Bio: {users bio}</p>
 		infoProf.appendChild(infoLink);	//	<a href={address to users github page}>{address to users github page}</a>
-	
-
-
 	//Testing
-	console.log(cardDiv);
-	console.log(obj.html_url);
+		console.log(cardDiv);
+		console.log(obj.html_url);
 	//Return	
 		return cardDiv;
 }
@@ -124,7 +114,20 @@ axios.get('https://api.github.com/users/imcatherinenoel')
 
 const followersArray = [	'tetondan',	'dustinmyers', 	'justsml', 	'luishrd',	'bigknell'];
 
+followersArray.forEach(follower => {
+	axios.get(`https://api.github.com/users/${follower}`)
+.then(info => {
+	console.log(info);
+	const card = document.querySelector('.cards');
+	card.append(cardMaker(info.data));
+ 
+   })
+   .catch(err => {
+	console.log('Error:', err);
+ 
+   });
 
+}); 
 
 
 
